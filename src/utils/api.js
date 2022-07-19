@@ -5,10 +5,9 @@ class Api {
   }
 
   _checkResponse(response) {
-    if (response.ok) {
-      return response.json();
-    }
-    return Promise.reject(`Ошибка: ${response.status}`);
+    return response.ok
+      ? response.json()
+      : Promise.reject(`Ошибка: ${response.status}`);
   }
 
   getUserInfo() {
@@ -21,10 +20,10 @@ class Api {
 
   setUserInfo(user) {
     return fetch(`${this._baseUrl}/users/me`, {
-      method: 'PATCH',
+      method: "PATCH",
       headers: {
         authorization: this._authorization,
-        'Content-Type': 'application/json; charset=UTF-8',
+        "Content-Type": "application/json; charset=UTF-8",
       },
       body: JSON.stringify({
         name: user.name,
@@ -36,10 +35,10 @@ class Api {
 
   setAvatar(input) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
-      method: 'PATCH',
+      method: "PATCH",
       headers: {
         authorization: this._authorization,
-        'Content-Type': 'application/json; charset=UTF-8',
+        "Content-Type": "application/json; charset=UTF-8",
       },
       body: JSON.stringify({
         avatar: input.url,
@@ -57,10 +56,10 @@ class Api {
 
   postNewCard(data) {
     return fetch(`${this._baseUrl}/cards`, {
-      method: 'POST',
+      method: "POST",
       headers: {
         authorization: this._authorization,
-        'Content-Type': 'application/json; charset=UTF-8',
+        "Content-Type": "application/json; charset=UTF-8",
       },
       body: JSON.stringify({
         name: data.title,
@@ -71,42 +70,41 @@ class Api {
 
   deleteCard(cardId) {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
         authorization: this._authorization,
-        'Content-Type': 'application/json; charset=UTF-8',
+        "Content-Type": "application/json; charset=UTF-8",
       },
     }).then(this._checkResponse);
   }
 
   addLikeCard(cardId) {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
         authorization: this._authorization,
-        'Content-Type': 'application/json; charset=UTF-8',
+        "Content-Type": "application/json; charset=UTF-8",
       },
     }).then(this._checkResponse);
   }
 
   deleteLikeCard(cardId) {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
         authorization: this._authorization,
-        'Content-Type': 'application/json; charset=UTF-8',
+        "Content-Type": "application/json; charset=UTF-8",
       },
     }).then(this._checkResponse);
   }
 }
 
 export const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-44',
+  baseUrl: "https://mesto.nomoreparties.co/v1/cohort-44",
   headers: {
-    authorization: '3d4f8c04-3648-430b-a07d-7834b6267814',
-    'Content-Type': 'application/json',
+    authorization: "3d4f8c04-3648-430b-a07d-7834b6267814",
+    "Content-Type": "application/json",
   },
 });
 
 export default api;
-

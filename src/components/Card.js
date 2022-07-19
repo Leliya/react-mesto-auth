@@ -1,14 +1,14 @@
-function Card(props) {
+function Card({ card, onCardClick }) {
   function handleClick() {
-    props.onCardClick(props.card);
+    onCardClick(card);
   }
 
   return (
-    <li className="cards__item" key={props.card._id}>
+    <li className="cards__item">
       <img
         className="cards__image"
-        alt={props.card.name}
-        src={props.card.link}
+        alt={card.name}
+        src={card.link}
         onClick={handleClick}
         onError={(event) => (event.target.style.visibility = "hidden")}
       />
@@ -18,14 +18,14 @@ function Card(props) {
         aria-label="Удалить"
       ></button>
       <div className="cards__caption">
-        <h2 className="cards__name">{props.card.name}</h2>
+        <h2 className="cards__name">{card.name}</h2>
         <div className="cards__like-elements">
           <button
             type="button"
             className="cards__like"
             aria-label="Мне нравится"
           ></button>
-          <span className="cards__like-counter">{props.card.likes.length}</span>
+          <span className="cards__like-counter">{card.likes.length}</span>
         </div>
       </div>
     </li>
