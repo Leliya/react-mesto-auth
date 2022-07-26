@@ -1,24 +1,21 @@
 import React from "react";
 import api from "../utils/api.js";
 import Card from "./Card";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
-  const [userName, setUserName] = React.useState("");
-  const [userDescription, setUserDescription] = React.useState("");
-  const [userAvatar, setUserAvatar] = React.useState("");
+  // const [userName, setUserName] = React.useState("");
+  // const [userDescription, setUserDescription] = React.useState("");
+  // const [userAvatar, setUserAvatar] = React.useState("");
   const [cards, getCards] = React.useState([]);
 
+  const currentUser = React.useContext(CurrentUserContext)
+
+
   React.useEffect(() => {
-    api
-      .getUserInfo()
-      .then((user) => {
-        setUserName(user.name);
-        setUserDescription(user.about);
-        setUserAvatar(user.avatar);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+        // setUserName(currentUser.name);
+        // setUserDescription(currentUser.about);
+        // setUserAvatar(currentUser.avatar);
 
     api
       .getInitialCards()
@@ -39,13 +36,13 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
             onClick={onEditAvatar}
           ></button>
           <img
-            src={userAvatar}
+            src={currentUser.avatar}
             alt="Аватар профиля"
             className="profile__avatar"
           />
         </div>
-        <h1 className="profile__name">{userName}</h1>
-        <p className="profile__activity">{userDescription}</p>
+        <h1 className="profile__name">{currentUser.name}</h1>
+        <p className="profile__activity">{currentUser.about}</p>
         <button
           className="profile__edit-button"
           aria-label="Редактировать профиль"
