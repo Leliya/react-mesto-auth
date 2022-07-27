@@ -101,9 +101,13 @@ export default api;
 
 
 
-// fetch(`https://mesto.nomoreparties.co/v1/cohort-44/cards/62e0fe47208c190a2f0e7e11/likes`, {
-//   method:'PUT',
+// fetch(`https://mesto.nomoreparties.co/v1/cohort-44/cards`, {
+//   method:"POST",
 //   headers: {
 //     authorization: "3d4f8c04-3648-430b-a07d-7834b6267814",
 //     "Content-Type": "application/json; charset=UTF-8",
-//   }})
+//   },
+// body: JSON.stringify({
+//   name: "Самара",
+//   link: 'https://images.unsplash.com/photo-1646580060894-10b1e2d9ac7d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
+// }),})

@@ -3,6 +3,7 @@ import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
+import EditProfilePopup from "./EditProfilePopup";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/api.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -50,6 +51,16 @@ function App() {
     setSelectedCard(card);
   }
 
+function handleUpdateUser(user){
+  api.setUserInfo(user)
+  .then((newUser) => {
+    setCurrentUser(newUser);
+    closeAllPopups();
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+}
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
@@ -61,7 +72,8 @@ function App() {
           onCardClick={handleCardClick}
         />
         <Footer />
-        <PopupWithForm
+        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/> 
+        {/* <PopupWithForm
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           title="Редактировать профиль"
@@ -92,7 +104,7 @@ function App() {
               <span className="popup__input-error about-input-error"></span>
             </div>
           </>
-        </PopupWithForm>
+        </PopupWithForm> */}
         <PopupWithForm
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
