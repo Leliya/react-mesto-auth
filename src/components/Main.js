@@ -23,6 +23,15 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
       });
   }
 
+  function handleCardDelete(card){
+    api.deleteCard(card._id).then(() =>
+    getCards((cards) => cards.filter((c) => (c._id !== card._id)))
+    )
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   React.useEffect(() => {
     // setUserName(currentUser.name);
     // setUserDescription(currentUser.about);
@@ -75,6 +84,7 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
               onCardClick={onCardClick}
               key={card._id}
               onCardLike={handleCardLike}
+              onCardDelete={handleCardDelete}
             />
           ))}
         </ul>
