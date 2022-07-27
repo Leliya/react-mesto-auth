@@ -25,6 +25,8 @@ function App() {
       });
   }, []);
 
+  
+
   function handleEditAvatarClick() {
     setAvatarPopupOpen(true);
   }

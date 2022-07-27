@@ -78,19 +78,9 @@ class Api {
     }).then(this._checkResponse);
   }
 
-  addLikeCard(cardId) {
+  changeLikeCard(cardId, isLiked) {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-      method: "PUT",
-      headers: {
-        authorization: this._authorization,
-        "Content-Type": "application/json; charset=UTF-8",
-      },
-    }).then(this._checkResponse);
-  }
-
-  deleteLikeCard(cardId) {
-    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-      method: "DELETE",
+      method: isLiked ? 'DELETE' : 'PUT',
       headers: {
         authorization: this._authorization,
         "Content-Type": "application/json; charset=UTF-8",
@@ -108,3 +98,12 @@ export const api = new Api({
 });
 
 export default api;
+
+
+
+// fetch(`https://mesto.nomoreparties.co/v1/cohort-44/cards/62e0fe47208c190a2f0e7e11/likes`, {
+//   method:'PUT',
+//   headers: {
+//     authorization: "3d4f8c04-3648-430b-a07d-7834b6267814",
+//     "Content-Type": "application/json; charset=UTF-8",
+//   }})

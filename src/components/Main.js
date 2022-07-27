@@ -9,13 +9,24 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
   // const [userAvatar, setUserAvatar] = React.useState("");
   const [cards, getCards] = React.useState([]);
 
-  const currentUser = React.useContext(CurrentUserContext)
+  const currentUser = React.useContext(CurrentUserContext);
 
+  function handleCardLike(card, isLiked) {
+    // const isLiked = card.likes.some(likeOwner => likeOwner._id === currentUser._id);
+    api
+      .changeLikeCard(card._id, isLiked)
+      .then((res) =>
+        getCards((cards) => cards.map((c) => (c._id === card._id ? res : c)))
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   React.useEffect(() => {
-        // setUserName(currentUser.name);
-        // setUserDescription(currentUser.about);
-        // setUserAvatar(currentUser.avatar);
+    // setUserName(currentUser.name);
+    // setUserDescription(currentUser.about);
+    // setUserAvatar(currentUser.avatar);
 
     api
       .getInitialCards()
@@ -59,7 +70,12 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
       <section className="photos">
         <ul className="cards">
           {cards.map((card) => (
-            <Card card={card} onCardClick={onCardClick} key={card._id} />
+            <Card
+              card={card}
+              onCardClick={onCardClick}
+              key={card._id}
+              onCardLike={handleCardLike}
+            />
           ))}
         </ul>
       </section>
