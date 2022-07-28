@@ -41,7 +41,7 @@ class Api {
         "Content-Type": "application/json; charset=UTF-8",
       },
       body: JSON.stringify({
-        avatar: input.url,
+        avatar: input.avatar,
       }),
     }).then(this._checkResponse);
   }

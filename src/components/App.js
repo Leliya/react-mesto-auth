@@ -4,6 +4,7 @@ import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/api.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -61,6 +62,17 @@ function handleUpdateUser(user){
     console.log(err);
   });
 }
+
+function handleUpdateAvatar(avatar){
+  api.setAvatar(avatar).then((newUser) => {
+    setCurrentUser(newUser);
+    closeAllPopups();
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+}
+
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
@@ -137,7 +149,8 @@ function handleUpdateUser(user){
             </div>
           </>
         </PopupWithForm>
-        <PopupWithForm
+        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
+        {/* <PopupWithForm
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           title="Обновить аватар"
@@ -157,7 +170,7 @@ function handleUpdateUser(user){
               <span className="popup__input-error url-input-error"></span>
             </div>
           </>
-        </PopupWithForm>
+        </PopupWithForm> */}
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
       </CurrentUserContext.Provider>
     </div>
