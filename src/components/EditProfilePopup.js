@@ -6,6 +6,7 @@ function EditProfilePopup({
   isOpen,
   onClose,
   onUpdateUser,
+  isLoading
 }) {
   const currentUser = React.useContext(CurrentUserContext);
   const [name, setName] = React.useState("");
@@ -42,6 +43,7 @@ function EditProfilePopup({
       title="Редактировать профиль"
       name="profile"
       buttonName="Сохранить"
+      isLoading={isLoading}
     >
       <>
         <div className="popup__fieldset">

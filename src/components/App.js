@@ -16,6 +16,8 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState({});
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, updateCards] = React.useState([]);
+  const [isLoading, setLoading] = React.useState(false);
+
 
   React.useEffect(() => {
     api
@@ -29,7 +31,6 @@ function App() {
   }, []);
 
   function handleCardLike(card, isLiked) {
-    // const isLiked = card.likes.some(likeOwner => likeOwner._id === currentUser._id);
     api
       .changeLikeCard(card._id, isLiked)
       .then((res) =>
@@ -52,10 +53,6 @@ function App() {
   }
 
   React.useEffect(() => {
-    // setUserName(currentUser.name);
-    // setUserDescription(currentUser.about);
-    // setUserAvatar(currentUser.avatar);
-
     api
       .getInitialCards()
       .then((cards) => updateCards(cards))
@@ -77,9 +74,11 @@ function App() {
   }
 
   function handleAddPlaceSubmit(data) {
+    setLoading(true)
     api
       .postNewCard(data)
       .then((card) => {
+        setLoading(false)
         updateCards([card, ...cards]);
         closeAllPopups();
       })
@@ -100,9 +99,11 @@ function App() {
   }
 
   function handleUpdateUser(user) {
+    setLoading(true)
     api
       .setUserInfo(user)
       .then((newUser) => {
+        setLoading(false)
         setCurrentUser(newUser);
         closeAllPopups();
       })
@@ -112,9 +113,11 @@ function App() {
   }
 
   function handleUpdateAvatar(avatar) {
+    setLoading(true)
     api
       .setAvatar(avatar)
       .then((newUser) => {
+        setLoading(false)
         setCurrentUser(newUser);
         closeAllPopups();
       })
@@ -141,101 +144,19 @@ function App() {
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
+          isLoading={isLoading}
         />
-        {/* <PopupWithForm
-          isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopups}
-          title="Редактировать профиль"
-          name="profile"
-          buttonName="Сохранить"
-        >
-          <>
-            <div className="popup__fieldset">
-              <input
-                type="text"
-                className="popup__input popup__input_type_name"
-                name="name"
-                id="name"
-                placeholder="Имя"
-                required
-              />
-              <span className="popup__input-error name-input-error"></span>
-            </div>
-            <div className="popup__fieldset">
-              <input
-                type="text"
-                className="popup__input popup__input_type_about"
-                name="about"
-                id="about"
-                placeholder="Профессия"
-                required
-              />
-              <span className="popup__input-error about-input-error"></span>
-            </div>
-          </>
-        </PopupWithForm> */}
-        {/* <PopupWithForm
-          isOpen={isAddPlacePopupOpen}
-          onClose={closeAllPopups}
-          title="Новое место"
-          name="add-photo"
-          buttonName="Создать"
-        >
-          <>
-            <div className="popup__fieldset">
-              <input
-                type="text"
-                className="popup__input popup__input_type_title"
-                name="title"
-                id="title"
-                placeholder="Название"
-                required
-              />
-              <span className="popup__input-error title-input-error"></span>
-            </div>
-            <div className="popup__fieldset">
-              <input
-                type="url"
-                className="popup__input popup__input_type_link"
-                name="link"
-                id="link"
-                placeholder="Ссылка на картинку"
-                required
-              />
-              <span className="popup__input-error link-input-error"></span>
-            </div>
-          </> 
-        </PopupWithForm>*/}
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
+          isLoading={isLoading}
         />
-        {/* <PopupWithForm
-          isOpen={isEditAvatarPopupOpen}
-          onClose={closeAllPopups}
-          title="Обновить аватар"
-          name="avatar"
-          buttonName="Сохранить"
-        >
-          <>
-            <div className="popup__fieldset">
-              <input
-                type="url"
-                className="popup__input popup__input_type_url"
-                name="url"
-                id="url"
-                placeholder="Ссылка на изображение"
-                required
-              />
-              <span className="popup__input-error url-input-error"></span>
-            </div>
-          </>
-        </PopupWithForm> */}
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlaceSubmit}
+          isLoading={isLoading}
         />
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
       </CurrentUserContext.Provider>

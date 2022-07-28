@@ -2,7 +2,7 @@ import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
 
-function EditAvatarPopup({isOpen, onClose, onUpdateAvatar}){
+function EditAvatarPopup({isOpen, onClose, onUpdateAvatar, isLoading}){
   const avatarRef = React.useRef();
 
   function handleSubmit(e) {
@@ -23,6 +23,7 @@ function EditAvatarPopup({isOpen, onClose, onUpdateAvatar}){
           name="avatar"
           buttonName="Сохранить"
           onSubmit={handleSubmit}
+          isLoading={isLoading}
         >
           <>
             <div className="popup__fieldset">

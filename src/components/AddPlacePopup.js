@@ -2,7 +2,7 @@ import React from "react";
 //import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import PopupWithForm from "./PopupWithForm";
 
-function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
+function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
   const [title, setTitle] = React.useState("");
   const [link, setLink] = React.useState("");
 
@@ -13,8 +13,8 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
       link: link,
     });
 
-    setTitle('')
-    setLink('')
+    setTitle("");
+    setLink("");
   }
 
   function handleChangeTitle(evt) {
@@ -33,6 +33,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
       name="add-photo"
       buttonName="Создать"
       onSubmit={handleSubmit}
+      isLoading={isLoading}
     >
       <>
         <div className="popup__fieldset">
@@ -41,7 +42,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
             className="popup__input popup__input_type_title"
             name="title"
             id="title"
-            value={title||''}
+            value={title || ""}
             onChange={handleChangeTitle}
             placeholder="Название"
             required
@@ -54,7 +55,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
             className="popup__input popup__input_type_link"
             name="link"
             id="link"
-            value={link||''}
+            value={link || ""}
             onChange={handleChangeLink}
             placeholder="Ссылка на картинку"
             required
