@@ -51,7 +51,7 @@ function EditProfilePopup({
             name="name"
             id="name"
             placeholder="Имя"
-            value={name}
+            value={name||''}
             onChange={handleChangeName}
             required
           />
@@ -64,7 +64,7 @@ function EditProfilePopup({
             name="about"
             id="about"
             placeholder="Профессия"
-            value={description}
+            value={description||''}
             onChange={handleChangeDescription}
             required
           />

@@ -1,49 +1,13 @@
 import React from "react";
-import api from "../utils/api.js";
 import Card from "./Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
+function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, cards, onCardLike, onCardDelete }) {
   // const [userName, setUserName] = React.useState("");
   // const [userDescription, setUserDescription] = React.useState("");
   // const [userAvatar, setUserAvatar] = React.useState("");
-  const [cards, getCards] = React.useState([]);
-
+  
   const currentUser = React.useContext(CurrentUserContext);
-
-  function handleCardLike(card, isLiked) {
-    // const isLiked = card.likes.some(likeOwner => likeOwner._id === currentUser._id);
-    api
-      .changeLikeCard(card._id, isLiked)
-      .then((res) =>
-        getCards((cards) => cards.map((c) => (c._id === card._id ? res : c)))
-      )
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  function handleCardDelete(card){
-    api.deleteCard(card._id).then(() =>
-    getCards((cards) => cards.filter((c) => (c._id !== card._id)))
-    )
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  React.useEffect(() => {
-    // setUserName(currentUser.name);
-    // setUserDescription(currentUser.about);
-    // setUserAvatar(currentUser.avatar);
-
-    api
-      .getInitialCards()
-      .then((cards) => getCards(cards))
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
 
   return (
     <main className="main">
@@ -83,8 +47,8 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
               card={card}
               onCardClick={onCardClick}
               key={card._id}
-              onCardLike={handleCardLike}
-              onCardDelete={handleCardDelete}
+              onCardLike={onCardLike}
+              onCardDelete={onCardDelete}
             />
           ))}
         </ul>
