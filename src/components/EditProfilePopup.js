@@ -2,16 +2,10 @@ import React from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import PopupWithForm from "./PopupWithForm";
 
-function EditProfilePopup({
-  isOpen,
-  onClose,
-  onUpdateUser,
-  isLoading
-}) {
+function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
   const currentUser = React.useContext(CurrentUserContext);
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
-
 
   React.useEffect(() => {
     setName(currentUser.name);
@@ -53,7 +47,7 @@ function EditProfilePopup({
             name="name"
             id="name"
             placeholder="Имя"
-            value={name||''}
+            value={name || ""}
             onChange={handleChangeName}
             required
           />
@@ -66,7 +60,7 @@ function EditProfilePopup({
             name="about"
             id="about"
             placeholder="Профессия"
-            value={description||''}
+            value={description || ""}
             onChange={handleChangeDescription}
             required
           />

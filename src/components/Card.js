@@ -2,10 +2,10 @@ import React from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Card({ card, onCardClick, onCardLike, onCardDelete }) {
-  const currentUser = React.useContext(CurrentUserContext)
+  const currentUser = React.useContext(CurrentUserContext);
 
   const isOwn = card.owner._id === currentUser._id;
-  const isLiked = card.likes.some(i => i._id === currentUser._id);
+  const isLiked = card.likes.some((i) => i._id === currentUser._id);
 
   function handleClick() {
     onCardClick(card);
@@ -14,9 +14,9 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   function handleLikeClick() {
     onCardLike(card, isLiked);
   }
-  function handleDeleteClick(){
-  onCardDelete(card)
-}
+  function handleDeleteClick() {
+    onCardDelete(card);
+  }
   return (
     <li className="cards__item">
       <img
@@ -28,7 +28,9 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
       />
       <button
         type="button"
-        className={isOwn ? 'cards__delete' : 'cards__delete cards__delete_hidden'}
+        className={
+          isOwn ? "cards__delete" : "cards__delete cards__delete_hidden"
+        }
         aria-label="Удалить"
         onClick={handleDeleteClick}
       ></button>
@@ -37,7 +39,9 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
         <div className="cards__like-elements">
           <button
             type="button"
-            className={isLiked ? 'cards__like cards__like_active' : 'cards__like'}
+            className={
+              isLiked ? "cards__like cards__like_active" : "cards__like"
+            }
             aria-label="Мне нравится"
             onClick={handleLikeClick}
           ></button>

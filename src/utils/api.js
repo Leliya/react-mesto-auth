@@ -80,7 +80,7 @@ class Api {
 
   changeLikeCard(cardId, isLiked) {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-      method: isLiked ? 'DELETE' : 'PUT',
+      method: isLiked ? "DELETE" : "PUT",
       headers: {
         authorization: this._authorization,
         "Content-Type": "application/json; charset=UTF-8",
@@ -98,16 +98,3 @@ export const api = new Api({
 });
 
 export default api;
-
-
-
-// fetch(`https://mesto.nomoreparties.co/v1/cohort-44/cards`, {
-//   method:"POST",
-//   headers: {
-//     authorization: "3d4f8c04-3648-430b-a07d-7834b6267814",
-//     "Content-Type": "application/json; charset=UTF-8",
-//   },
-// body: JSON.stringify({
-//   name: "Самара",
-//   link: 'https://images.unsplash.com/photo-1646580060894-10b1e2d9ac7d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-// }),})

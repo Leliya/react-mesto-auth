@@ -32,46 +32,6 @@ function App() {
       });
   }, []);
 
-  function handleCardLike(card, isLiked) {
-    api
-      .changeLikeCard(card._id, isLiked)
-      .then((res) =>
-        updateCards((cards) => cards.map((c) => (c._id === card._id ? res : c)))
-      )
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-  function handleCardDelete(card) {
-    setDeletedCard(card);
-    setConfirmPopupOpen(true);
-  }
-
-  function handleDeleteConfirmation() {
-    setLoading(true);
-    api
-      .deleteCard(deletedCard._id)
-      .then(() => {
-        setLoading(false);
-        updateCards((cards) => cards.filter((c) => c._id !== deletedCard._id));
-        closeAllPopups();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  // function handleCardDelete(card) {
-  //   api
-  //     .deleteCard(card._id)
-  //     .then(() =>
-  //       updateCards((cards) => cards.filter((c) => c._id !== card._id))
-  //     )
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
-
   React.useEffect(() => {
     api
       .getInitialCards()
@@ -93,6 +53,48 @@ function App() {
     setAddPlacePopupOpen(true);
   }
 
+  function closeAllPopups() {
+    setAvatarPopupOpen(false);
+    setProfilePopupOpen(false);
+    setAddPlacePopupOpen(false);
+    setConfirmPopupOpen(false);
+    setSelectedCard({});
+  }
+
+  function handleCardLike(card, isLiked) {
+    api
+      .changeLikeCard(card._id, isLiked)
+      .then((res) =>
+        updateCards((cards) => cards.map((c) => (c._id === card._id ? res : c)))
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function handleCardClick(card) {
+    setSelectedCard(card);
+  }
+
+  function handleCardDelete(card) {
+    setDeletedCard(card);
+    setConfirmPopupOpen(true);
+  }
+
+  function handleDeleteConfirmation() {
+    setLoading(true);
+    api
+      .deleteCard(deletedCard._id)
+      .then(() => {
+        setLoading(false);
+        updateCards((cards) => cards.filter((c) => c._id !== deletedCard._id));
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   function handleAddPlaceSubmit(data) {
     setLoading(true);
     api
@@ -105,18 +107,6 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
-  }
-
-  function closeAllPopups() {
-    setAvatarPopupOpen(false);
-    setProfilePopupOpen(false);
-    setAddPlacePopupOpen(false);
-    setConfirmPopupOpen(false)
-    setSelectedCard({});
-  }
-
-  function handleCardClick(card) {
-    setSelectedCard(card);
   }
 
   function handleUpdateUser(user) {
