@@ -6,6 +6,12 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
   const [title, setTitle] = React.useState("");
   const [link, setLink] = React.useState("");
 
+  React.useEffect(() => {
+    if(isOpen){
+      setTitle("")
+      setLink("")}
+  }, [isOpen]);
+
   function handleSubmit(e) {
     e.preventDefault();
     onAddPlace({
@@ -13,8 +19,8 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
       link: link,
     });
 
-    setTitle("");
-    setLink("");
+    // setTitle("");
+    // setLink("");
   }
 
   function handleChangeTitle(evt) {
