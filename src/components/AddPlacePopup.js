@@ -1,5 +1,4 @@
 import React from "react";
-//import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import PopupWithForm from "./PopupWithForm";
 
 function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
@@ -18,9 +17,6 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
       title: title,
       link: link,
     });
-
-    // setTitle("");
-    // setLink("");
   }
 
   function handleChangeTitle(evt) {
