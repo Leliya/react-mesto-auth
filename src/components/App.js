@@ -15,6 +15,7 @@ function App() {
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setAvatarPopupOpen] = React.useState(false);
   const [isConfirmPopup, setConfirmPopupOpen] = React.useState(false);
+  const [isImagePopupOpen, setImagePopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({});
   const [deletedCard, setDeletedCard] = React.useState({});
   const [currentUser, setCurrentUser] = React.useState({});
@@ -58,7 +59,8 @@ function App() {
     setProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
     setConfirmPopupOpen(false);
-    setSelectedCard({});
+    setImagePopupOpen(false);
+    //setSelectedCard({});
   }
 
   function handleCardLike(card, isLiked) {
@@ -74,6 +76,7 @@ function App() {
 
   function handleCardClick(card) {
     setSelectedCard(card);
+    setImagePopupOpen(true)
   }
 
   function handleCardDelete(card) {
@@ -134,6 +137,7 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
+        setLoading(false);
       });
   }
 
@@ -175,7 +179,7 @@ function App() {
           onDeleteCard={handleDeleteConfirmation}
           isLoading={isLoading}
         />
-        <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+        <ImagePopup card={selectedCard} isOpen={isImagePopupOpen} onClose={closeAllPopups} />
       </CurrentUserContext.Provider>
     </div>
   );

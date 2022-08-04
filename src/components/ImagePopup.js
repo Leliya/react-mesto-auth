@@ -1,11 +1,11 @@
-function ImagePopup({ card, onClose }) {
+function ImagePopup({ card, isOpen, onClose }) {
   function cancelClose(e) {
     e.stopPropagation();
   }
   return (
     <div
       className={`popup popup_type_photo ${
-        Object.keys(card).length === 0 ? "" : "popup_opened"
+        isOpen ? "popup_opened" : ""
       }`}
       onClick={onClose}
     >
