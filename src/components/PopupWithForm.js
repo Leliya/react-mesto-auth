@@ -7,6 +7,7 @@ function PopupWithForm({
   onClose,
   onSubmit,
   isLoading,
+  isValid
 }) {
   function cancelClose(e) {
     e.stopPropagation();
@@ -27,7 +28,7 @@ function PopupWithForm({
         <h2 className="popup__title">{title}</h2>
         <form name={name} onSubmit={onSubmit} className="popup__form">
           {children}
-          <button className="popup__button" type="submit">
+          <button className={isValid?"popup__button":"popup__button popup__button_disabled"} type="submit" disabled={!isValid}>
             {isLoading ? "Сохранение..." : buttonName}
           </button>
         </form>

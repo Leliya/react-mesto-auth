@@ -3,11 +3,24 @@ import PopupWithForm from "./PopupWithForm";
 
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
   const avatarRef = React.useRef();
+  const [errorMesage, setErrorMessage] = React.useState('')
 
   React.useEffect(() => {
     if(isOpen){
-      avatarRef.current.value = ''}
+      avatarRef.current.value = ''
+      setErrorMessage('')
+      setValidStatus(false)
+      // console.log(avatarRef.current.validationMessage)
+      // avatarRef.current.validationMessage = ''
+    }
   }, [isOpen]);
+
+  const [isValid, setValidStatus] = React.useState(false);
+  
+  function validation(){
+    setValidStatus(avatarRef.current.validity.valid)
+    setErrorMessage(avatarRef.current.validationMessage)
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -26,6 +39,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
       buttonName="Сохранить"
       onSubmit={handleSubmit}
       isLoading={isLoading}
+      isValid={isValid}
     >
       <>
         <div className="popup__fieldset">
@@ -36,9 +50,10 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
             id="url"
             placeholder="Ссылка на изображение"
             ref={avatarRef}
+            onChange={validation}
             required
           />
-          <span className="popup__input-error url-input-error"></span>
+          <span className="popup__input-error url-input-error">{isValid||errorMesage}</span>
         </div>
       </>
     </PopupWithForm>
