@@ -16,6 +16,7 @@ function ConfirmationDeletePopup({ isOpen, onClose, onDeleteCard, isLoading }) {
       buttonName="Да"
       onSubmit={handleSubmit}
       isLoading={isLoading}
+      isValid={true}
     />
   );
 }

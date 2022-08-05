@@ -3,23 +3,22 @@ import PopupWithForm from "./PopupWithForm";
 
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
   const avatarRef = React.useRef();
-  const [errorMesage, setErrorMessage] = React.useState('')
+  const [errorMesage, setErrorMessage] = React.useState("");
+  const [isValid, setValidStatus] = React.useState(false);
 
   React.useEffect(() => {
-    if(isOpen){
-      avatarRef.current.value = ''
-      setErrorMessage('')
-      setValidStatus(false)
+    if (isOpen) {
+      avatarRef.current.value = "";
+      setErrorMessage("");
+      setValidStatus(false);
       // console.log(avatarRef.current.validationMessage)
       // avatarRef.current.validationMessage = ''
     }
   }, [isOpen]);
 
-  const [isValid, setValidStatus] = React.useState(false);
-  
-  function validation(){
-    setValidStatus(avatarRef.current.validity.valid)
-    setErrorMessage(avatarRef.current.validationMessage)
+  function validation() {
+    setValidStatus(avatarRef.current.validity.valid);
+    setErrorMessage(avatarRef.current.validationMessage);
   }
 
   function handleSubmit(e) {
@@ -53,7 +52,9 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
             onChange={validation}
             required
           />
-          <span className="popup__input-error url-input-error">{isValid||errorMesage}</span>
+          <span className="popup__input-error url-input-error">
+            {isValid || errorMesage}
+          </span>
         </div>
       </>
     </PopupWithForm>
