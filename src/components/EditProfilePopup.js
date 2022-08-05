@@ -6,18 +6,36 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
   const currentUser = React.useContext(CurrentUserContext);
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
+  const [isValidName, setValidNameStatus] = React.useState({
+    validity: false,
+    message: "",
+  });
+  const [isValidDescription, setValidDescriptionStatus] = React.useState({
+    validity: false,
+    message: "",
+  });
 
   React.useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
+    setValidNameStatus({ validity: false, message: "" });
+    setValidDescriptionStatus({ validity: false, message: "" });
   }, [currentUser]);
 
   function handleChangeName(evt) {
     setName(evt.target.value);
+    setValidNameStatus({
+      validity: evt.target.validity.valid,
+      message: evt.target.validationMessage,
+    });
   }
 
   function handleChangeDescription(evt) {
     setDescription(evt.target.value);
+    setValidDescriptionStatus({
+      validity: evt.target.validity.valid,
+      message: evt.target.validationMessage,
+    });
   }
 
   function handleSubmit(e) {
@@ -38,6 +56,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
       name="profile"
       buttonName="Сохранить"
       isLoading={isLoading}
+      isValid={isValidName.validity && isValidDescription.validity}
     >
       <>
         <div className="popup__fieldset">
@@ -50,8 +69,10 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
             value={name || ""}
             onChange={handleChangeName}
             required
+            minLength={2}
+            maxLength={20}
           />
-          <span className="popup__input-error name-input-error"></span>
+          <span className="popup__input-error name-input-error">{isValidName.message}</span>
         </div>
         <div className="popup__fieldset">
           <input
@@ -63,8 +84,10 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
             value={description || ""}
             onChange={handleChangeDescription}
             required
+            minLength={2}
+            maxLength={40}
           />
-          <span className="popup__input-error about-input-error"></span>
+          <span className="popup__input-error about-input-error">{isValidDescription.message}</span>
         </div>
       </>
     </PopupWithForm>
