@@ -89,13 +89,12 @@ function App() {
     api
       .deleteCard(deletedCard._id)
       .then(() => {
-        setLoading(false);
         updateCards((cards) => cards.filter((c) => c._id !== deletedCard._id));
         closeAllPopups();
       })
       .catch((err) => {
         console.log(err);
-      });
+      }).finally(()=>setLoading(false));
   }
 
   function handleAddPlaceSubmit(data) {
@@ -103,13 +102,14 @@ function App() {
     api
       .postNewCard(data)
       .then((card) => {
-        setLoading(false);
+        
         updateCards([card, ...cards]);
         closeAllPopups();
       })
       .catch((err) => {
         console.log(err);
-      });
+      }).finally(()=>setLoading(false)
+      );
   }
 
   function handleUpdateUser(user) {
@@ -117,13 +117,12 @@ function App() {
     api
       .setUserInfo(user)
       .then((newUser) => {
-        setLoading(false);
         setCurrentUser(newUser);
         closeAllPopups();
       })
       .catch((err) => {
         console.log(err);
-      });
+      }).finally(()=>setLoading(false));
   }
 
   function handleUpdateAvatar(avatar) {
@@ -131,14 +130,13 @@ function App() {
     api
       .setAvatar(avatar)
       .then((newUser) => {
-        setLoading(false);
         setCurrentUser(newUser);
         closeAllPopups();
       })
       .catch((err) => {
         console.log(err);
-        setLoading(false);
-      });
+      }).finally(()=>setLoading(false)
+      );
   }
 
   return (
