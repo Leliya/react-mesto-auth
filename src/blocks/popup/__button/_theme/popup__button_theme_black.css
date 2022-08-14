@@ -1,0 +1,8 @@
+.popup__button_theme_black {
+  background-color: #fff;
+  color: #000;
+  position: fixed;
+  width: 358px;
+  bottom: 112px;
+}
+

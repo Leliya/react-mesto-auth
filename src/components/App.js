@@ -1,4 +1,5 @@
 import React from "react";
+import { Route, Switch, Redirect } from "react-router-dom";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -9,6 +10,9 @@ import ConfirmationDeletePopup from "./ConfirmationDeletePopup";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/api.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import Register from "./Register";
+//import Login from "./Login";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
   const [isEditProfilePopupOpen, setProfilePopupOpen] = React.useState(false);
@@ -21,6 +25,7 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, updateCards] = React.useState([]);
   const [isLoading, setLoading] = React.useState(false);
+  const [loggedIn, setloggedIn] = React.useState(false);
 
   React.useEffect(() => {
     api
@@ -76,7 +81,7 @@ function App() {
 
   function handleCardClick(card) {
     setSelectedCard(card);
-    setImagePopupOpen(true)
+    setImagePopupOpen(true);
   }
 
   function handleCardDelete(card) {
@@ -94,7 +99,8 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
-      }).finally(()=>setLoading(false));
+      })
+      .finally(() => setLoading(false));
   }
 
   function handleAddPlaceSubmit(data) {
@@ -102,14 +108,13 @@ function App() {
     api
       .postNewCard(data)
       .then((card) => {
-        
         updateCards([card, ...cards]);
         closeAllPopups();
       })
       .catch((err) => {
         console.log(err);
-      }).finally(()=>setLoading(false)
-      );
+      })
+      .finally(() => setLoading(false));
   }
 
   function handleUpdateUser(user) {
@@ -122,7 +127,8 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
-      }).finally(()=>setLoading(false));
+      })
+      .finally(() => setLoading(false));
   }
 
   function handleUpdateAvatar(avatar) {
@@ -135,24 +141,35 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
-      }).finally(()=>setLoading(false)
-      );
+      })
+      .finally(() => setLoading(false));
   }
 
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
         <Header />
-        <Main
-          onEditAvatar={handleEditAvatarClick}
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onCardClick={handleCardClick}
-          cards={cards}
-          onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
-        />
-        <Footer />
+        <Switch>
+          <ProtectedRoute
+            exact
+            path="/"
+            loggedIn={loggedIn}
+            component={Main}
+            onEditAvatar={handleEditAvatarClick}
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onCardClick={handleCardClick}
+            cards={cards}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
+          />
+          <Route path="/sign-up">
+            <Register />
+          </Route>
+        </Switch>
+        <Route exact path="/">
+          <Footer />
+        </Route>
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
@@ -177,7 +194,11 @@ function App() {
           onDeleteCard={handleDeleteConfirmation}
           isLoading={isLoading}
         />
-        <ImagePopup card={selectedCard} isOpen={isImagePopupOpen} onClose={closeAllPopups} />
+        <ImagePopup
+          card={selectedCard}
+          isOpen={isImagePopupOpen}
+          onClose={closeAllPopups}
+        />
       </CurrentUserContext.Provider>
     </div>
   );

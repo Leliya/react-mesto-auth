@@ -1,0 +1,26 @@
+.popup__input_theme_black{
+  border-bottom: 2px solid #CCCCCC;
+  color: #FFF;
+  background-color: #000;
+  font-weight: 500;
+}
+
+.popup__input::-webkit-input-placeholder {
+  color: #CCCCCC;
+}
+
+.popup__input::-moz-placeholder {
+  color: #CCCCCC;
+}
+
+.popup__input:-ms-input-placeholder {
+  color: #CCCCCC;
+}
+
+.popup__input::-ms-input-placeholder {
+  color: #CCCCCC;
+}
+
+.popup__input::placeholder {
+  color: #CCCCCC;
+}

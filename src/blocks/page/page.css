@@ -9,6 +9,7 @@
   grid-template-areas:
     ". header ."
     ". main ."
+    ". register ."
     ". footer .";
   align-items: center;
   margin: 0;
