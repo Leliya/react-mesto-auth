@@ -9,7 +9,6 @@ function Auth({
   email,
   password,
   // isLoading,
-  isValid,
   onChange,
 }) {
   const [isValidEmail, setValidEmailStatus] = React.useState({
@@ -94,7 +93,7 @@ function Auth({
                 : "popup__button popup__button_theme_black popup__button_disabled"
             }
             type="submit"
-            disabled={!isValid}
+            disabled={isValidEmail && isValidPassword}
           >
             {buttonName}
             {/* {isLoading ? "Отправка..." : buttonName} */}

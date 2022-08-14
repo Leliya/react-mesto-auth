@@ -11,7 +11,7 @@ import ImagePopup from "./ImagePopup";
 import api from "../utils/api.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import Register from "./Register";
-//import Login from "./Login";
+import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
@@ -165,6 +165,9 @@ function App() {
           />
           <Route path="/sign-up">
             <Register />
+          </Route>
+          <Route path="/sign-in">
+            <Login />
           </Route>
         </Switch>
         <Route exact path="/">
