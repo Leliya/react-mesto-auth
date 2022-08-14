@@ -1,6 +1,6 @@
 import React from "react";
 //import { Link } from 'react-router-dom';
-import Auth from "./Auth";
+import FormForAuth from "./FormForAuth";
 
 class Login extends React.Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class Login extends React.Component {
 
   render() {
     return (
-      <Auth
+      <FormForAuth
         title="Вход"
         name="login"
         buttonName="Войти"

@@ -173,6 +173,9 @@ function App() {
         <Route exact path="/">
           <Footer />
         </Route>
+        {/* <Route path="*">
+        <Redirect to="/sign-in" />
+  </Route> */}
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}

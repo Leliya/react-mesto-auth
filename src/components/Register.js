@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Auth from "./Auth";
+import FormForAuth from "./FormForAuth";
+import {register} from "./Auth";
+
 
 class Register extends React.Component {
   constructor(props) {
@@ -10,6 +12,7 @@ class Register extends React.Component {
       password: "",
     };
     this.handleChange=this.handleChange.bind(this);
+    this.onRegister=this.onRegister.bind(this);
   }
 
   handleChange(obj){
@@ -18,11 +21,15 @@ class Register extends React.Component {
 
   onRegister(){
 
+register(
+this.state.email,
+  this.state.password
+)
   }
 
   render() {
     return (
-      <Auth
+      <FormForAuth
         title="Регистрация"
         name="registration"
         buttonName="Зарегистрироваться"
@@ -38,7 +45,7 @@ class Register extends React.Component {
              Войти
           </Link>
         </span>
-      </Auth>
+      </FormForAuth>
     );
   }
 }
