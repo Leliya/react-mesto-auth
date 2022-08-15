@@ -1,6 +1,8 @@
 import React from "react";
 //import { Link } from 'react-router-dom';
 import FormForAuth from "./FormForAuth";
+import {authorize} from "./Auth";
+import { withRouter } from 'react-router-dom'; 
 
 class Login extends React.Component {
   constructor(props) {
@@ -10,6 +12,7 @@ class Login extends React.Component {
       password: "",
     };
     this.handleChange=this.handleChange.bind(this);
+    this.onLogin=this.onLogin.bind(this);
   }
 
   handleChange(obj){
@@ -17,7 +20,17 @@ class Login extends React.Component {
   }
 
   onLogin(){
-
+    
+authorize(this.state.email, this.state.password).then((data) => {
+  if (data.token){
+    this.setState({email: '', password: ''} ,() => {
+        this.props.loggedIn();
+        debugger
+        this.props.history.push('/mesto');
+    })
+  }  
+})
+.catch(err => console.log(err));
   }
 
   render() {
@@ -36,4 +49,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+export default withRouter(Login);

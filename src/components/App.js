@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -145,6 +145,10 @@ function App() {
       .finally(() => setLoading(false));
   }
 
+ function handleLogin(){
+  setloggedIn(true)
+ }
+
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
@@ -152,7 +156,7 @@ function App() {
         <Switch>
           <ProtectedRoute
             exact
-            path="/"
+            path="/mesto"
             loggedIn={loggedIn}
             component={Main}
             onEditAvatar={handleEditAvatarClick}
@@ -167,10 +171,10 @@ function App() {
             <Register />
           </Route>
           <Route path="/sign-in">
-            <Login />
+            <Login loggedIn={handleLogin}/>
           </Route>
         </Switch>
-        <Route exact path="/">
+        <Route exact path="/mesto">
           <Footer />
         </Route>
         {/* <Route path="*">

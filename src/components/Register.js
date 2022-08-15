@@ -1,8 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link , withRouter} from "react-router-dom";
 import FormForAuth from "./FormForAuth";
-import {register} from "./Auth";
-
+import { register } from "./Auth";
 
 class Register extends React.Component {
   constructor(props) {
@@ -11,21 +10,31 @@ class Register extends React.Component {
       email: "",
       password: "",
     };
-    this.handleChange=this.handleChange.bind(this);
-    this.onRegister=this.onRegister.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.onRegister = this.onRegister.bind(this);
   }
 
-  handleChange(obj){
-    this.setState(obj)
+  handleChange(obj) {
+    this.setState(obj);
   }
 
-  onRegister(){
-
-register(
-this.state.email,
-  this.state.password
-)
+  onRegister() {
+    register(this.state.email, this.state.password).then((res) => {
+      if(res){
+        this.setState({
+          message: ''
+        }, () => {
+          this.props.history.push('./sign-in');
+        })
+      } else {
+        this.setState({
+          message: 'Что-то пошло не так!'
+        })
+        console.log(this.state.message)
+      }
+    });
   }
+  
 
   render() {
     return (
@@ -34,7 +43,7 @@ this.state.email,
         name="registration"
         buttonName="Зарегистрироваться"
         onSubmit={this.onRegister}
-   //     isLoading={isLoading}
+        //     isLoading={isLoading}
         email={this.state.email}
         password={this.state.password}
         onChange={this.handleChange}
@@ -42,7 +51,7 @@ this.state.email,
         <span className="register__caption">
           Уже зарегистрированы? &nbsp;
           <Link to="/sign-in" className="register__caption-link">
-             Войти
+            Войти
           </Link>
         </span>
       </FormForAuth>
@@ -50,4 +59,4 @@ this.state.email,
   }
 }
 
-export default Register;
+export default withRouter(Register);
