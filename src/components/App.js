@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useHistory } from "react-router-dom";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -13,6 +13,7 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import Register from "./Register";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
+import { getContent } from "./Auth";
 
 function App() {
   const [isEditProfilePopupOpen, setProfilePopupOpen] = React.useState(false);
@@ -26,6 +27,8 @@ function App() {
   const [cards, updateCards] = React.useState([]);
   const [isLoading, setLoading] = React.useState(false);
   const [loggedIn, setloggedIn] = React.useState(false);
+  const [email, setEmail] = React.useState("");
+  const history = useHistory();
 
   React.useEffect(() => {
     api
@@ -45,6 +48,10 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
+  }, []);
+
+  React.useEffect(() => {
+    tokenCheck();
   }, []);
 
   function handleEditAvatarClick() {
@@ -145,14 +152,37 @@ function App() {
       .finally(() => setLoading(false));
   }
 
- function handleLogin(){
-  setloggedIn(true)
- }
+  function tokenCheck() {
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      getContent(jwt).then((res) => {
+        
+        if (res) {
+          setloggedIn(true);
+          setEmail(res.data.email);
+          history.push("/mesto");
+        }
+      });
+    }
+  }
+
+  function handleLogin() {
+    tokenCheck();
+    setloggedIn(true);
+    
+  }
+
+  function handleSignOut() {
+    setloggedIn(false);
+    localStorage.removeItem('jwt');
+    setEmail('');
+    history.push("/sign-in");
+  }
 
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
-        <Header />
+        <Header loggedIn={loggedIn} onSignOut={handleSignOut} email={email}/>
         <Switch>
           <ProtectedRoute
             exact
@@ -171,12 +201,10 @@ function App() {
             <Register />
           </Route>
           <Route path="/sign-in">
-            <Login loggedIn={handleLogin}/>
+            <Login loggedIn={handleLogin} />
           </Route>
         </Switch>
-        <Route exact path="/mesto">
-          <Footer />
-        </Route>
+        {loggedIn && <Footer />}
         {/* <Route path="*">
         <Redirect to="/sign-in" />
   </Route> */}
