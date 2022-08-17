@@ -63,6 +63,7 @@ function FormForAuth({
               placeholder="Email"
               value={email || ""}
               onChange={handleChange}
+              autoComplete={'off'}
               required
             />
             <span className="popup__input-error email-input-error">
@@ -80,6 +81,7 @@ function FormForAuth({
               onChange={handleChange}
               minLength={6}
               maxLength={20}
+              autoComplete={'new-password'}
               required
             />
             <span className="popup__input-error password-input-error">

@@ -51,8 +51,18 @@ function App() {
   }, []);
 
   React.useEffect(() => {
-    tokenCheck();
-  }, []);
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      getContent(jwt).then((res) => {
+        
+        if (res) {
+          setloggedIn(true);
+          setEmail(res.data.email);
+          history.push("/mesto");
+        }
+      });
+    }
+  }, [history, loggedIn, email]);
 
   function handleEditAvatarClick() {
     setAvatarPopupOpen(true);
@@ -152,22 +162,22 @@ function App() {
       .finally(() => setLoading(false));
   }
 
-  function tokenCheck() {
-    const jwt = localStorage.getItem("jwt");
-    if (jwt) {
-      getContent(jwt).then((res) => {
+  // function tokenCheck() {
+  //   const jwt = localStorage.getItem("jwt");
+  //   if (jwt) {
+  //     getContent(jwt).then((res) => {
         
-        if (res) {
-          setloggedIn(true);
-          setEmail(res.data.email);
-          history.push("/mesto");
-        }
-      });
-    }
-  }
+  //       if (res) {
+  //         setloggedIn(true);
+  //         setEmail(res.data.email);
+  //         history.push("/mesto");
+  //       }
+  //     });
+  //   }
+  // }
 
   function handleLogin() {
-    tokenCheck();
+    //tokenCheck();
     setloggedIn(true);
     
   }
@@ -175,7 +185,7 @@ function App() {
   function handleSignOut() {
     setloggedIn(false);
     localStorage.removeItem('jwt');
-    setEmail('');
+    //setEmail('');
     history.push("/sign-in");
   }
 
