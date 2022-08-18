@@ -36,7 +36,6 @@ class Register extends React.Component {
           message: "Что-то пошло не так! Попробуйте ещё раз.",
           isRegOk: false,
         });
-        console.log(this.state.message);
       }
       this.setState({ isInfoTooltip: true });
     });

@@ -39,8 +39,10 @@
   .page {
     grid-template-columns: 19px 1fr 19px;
     grid-template-areas:
+      "menu menu menu"
       "header header header"
       ". main ."
+      ". register ."
       ". footer .";
   }
 }

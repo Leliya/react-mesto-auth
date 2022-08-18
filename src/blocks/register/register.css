@@ -1,6 +1,6 @@
 .register {
   width: 100%;
-  height: calc(100vh - 120px);
+  height: calc(100vh - 116px);
   grid-area: register;
   display: flex;
   justify-content: space-between;
@@ -10,6 +10,19 @@
 
 @media screen and (min-width: 1281px) {
   .register {
-    height: calc(100vh - (90/1280*100vw) - 33px);
+    height: calc(100vh - (87/1280*100vw) - 33px);
   }
 }
+
+@media screen and (max-width: 750px) {
+  .register {
+    height: calc(100vh - 113px);
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .register {
+    height: calc(100vh - 86px);
+  }
+}
+

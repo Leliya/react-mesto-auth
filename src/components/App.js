@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch, useHistory } from "react-router-dom";
+import { Route, Switch, useHistory, Redirect } from "react-router-dom";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -215,9 +215,9 @@ function App() {
           </Route>
         </Switch>
         {loggedIn && <Footer />}
-        {/* <Route path="*">
+        <Route path="*">
         <Redirect to="/sign-in" />
-  </Route> */}
+  </Route>
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}

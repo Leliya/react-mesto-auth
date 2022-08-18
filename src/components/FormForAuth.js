@@ -46,8 +46,8 @@ function FormForAuth({
 
   return (
     <div className="register">
-      <div className="popup__container popup__container_theme_black">
-        <h2 className="popup__title popup__title_theme_black">{title}</h2>
+      <div className="popup__container popup__container_type_auth">
+        <h2 className="popup__title popup__title_type_auth">{title}</h2>
         <form
           name={name}
           onSubmit={handleSubmit}
@@ -57,7 +57,7 @@ function FormForAuth({
           <div className="popup__fieldset">
             <input
               type="email"
-              className="popup__input popup__input_theme_black popup__input_type_email"
+              className="popup__input popup__input_type_auth popup__input_type_email"
               name="email"
               id="email"
               placeholder="Email"
@@ -73,7 +73,7 @@ function FormForAuth({
           <div className="popup__fieldset">
             <input
               type="password"
-              className="popup__input popup__input_theme_black popup__input_type_password"
+              className="popup__input popup__input_type_auth popup__input_type_password"
               name="password"
               id="password"
               placeholder="Пароль"
@@ -90,12 +90,12 @@ function FormForAuth({
           </div>
           <button
             className={
-              isValidEmail && isValidPassword
-                ? "popup__button popup__button_theme_black"
-                : "popup__button popup__button_theme_black popup__button_disabled"
+              isValidEmail.validity && isValidPassword.validity
+                ? "popup__button popup__button_type_auth"
+                : "popup__button popup__button_type_auth popup__button_disabled"
             }
             type="submit"
-            disabled={!isValidEmail || !isValidPassword}
+            disabled={!isValidEmail.validity&&!isValidPassword.validity}
           >
             {buttonName}
             {/* {isLoading ? "Отправка..." : buttonName} */}
