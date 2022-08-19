@@ -9,13 +9,13 @@ export const register = (email, password) => {
     },
     body: JSON.stringify({ email, password }),
   })
-    .then((response) => {
+    .then((res) => {
       try {
-        if (response.ok) {
-          return response.json();
+        if (res.ok) {
+          return res.json();
         }
-      } catch (e) {
-        return e;
+      } catch (err) {
+        return err;
       }
     })
     .then((res) => {
@@ -37,6 +37,7 @@ export const authorize = (email, password) => {
       if (res.ok) {
         return res.json();
       }
+      return;
     })
     .then((data) => {
       if (data.token) {

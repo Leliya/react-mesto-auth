@@ -6,7 +6,7 @@
   color: #fff;
 }
 
-.header__link:hover{
+.header__link:hover {
   cursor: pointer;
   opacity: 0.6;
 }

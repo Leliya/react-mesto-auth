@@ -53,15 +53,19 @@ function App() {
   React.useEffect(() => {
     const jwt = localStorage.getItem("jwt");
     if (jwt) {
-      getContent(jwt).then((res) => {
-        
-        if (res) {
-          setloggedIn(true);
-          setEmail(res.data.email);
-          history.push("/mesto");
-        }
-      });
+      getContent(jwt)
+        .then((res) => {
+          if (res) {
+            setloggedIn(true);
+            setEmail(res.data.email);
+            history.push("/mesto");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
+    return;
   }, [history, loggedIn, email]);
 
   function handleEditAvatarClick() {
@@ -82,7 +86,6 @@ function App() {
     setAddPlacePopupOpen(false);
     setConfirmPopupOpen(false);
     setImagePopupOpen(false);
-    //setSelectedCard({});
   }
 
   function handleCardLike(card, isLiked) {
@@ -162,37 +165,20 @@ function App() {
       .finally(() => setLoading(false));
   }
 
-  // function tokenCheck() {
-  //   const jwt = localStorage.getItem("jwt");
-  //   if (jwt) {
-  //     getContent(jwt).then((res) => {
-        
-  //       if (res) {
-  //         setloggedIn(true);
-  //         setEmail(res.data.email);
-  //         history.push("/mesto");
-  //       }
-  //     });
-  //   }
-  // }
-
   function handleLogin() {
-    //tokenCheck();
     setloggedIn(true);
-    
   }
 
   function handleSignOut() {
     setloggedIn(false);
-    localStorage.removeItem('jwt');
-    //setEmail('');
+    localStorage.removeItem("jwt");
     history.push("/sign-in");
   }
 
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
-        <Header loggedIn={loggedIn} onSignOut={handleSignOut} email={email}/>
+        <Header loggedIn={loggedIn} onSignOut={handleSignOut} email={email} />
         <Switch>
           <ProtectedRoute
             exact
@@ -216,8 +202,8 @@ function App() {
         </Switch>
         {loggedIn && <Footer />}
         <Route path="*">
-        <Redirect to="/sign-in" />
-  </Route>
+          <Redirect to="/sign-in" />
+        </Route>
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}

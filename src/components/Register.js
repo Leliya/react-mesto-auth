@@ -11,7 +11,8 @@ class Register extends React.Component {
       email: "",
       password: "",
       isInfoTooltip: false,
-      isRegOk:false,
+      isRegOk: false,
+      isLoading: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.onRegister = this.onRegister.bind(this);
@@ -23,27 +24,30 @@ class Register extends React.Component {
   }
 
   onRegister() {
-    register(this.state.email, this.state.password).then((res) => {
-      if (res) {
-        this.setState(
-          {
+    this.setState({ isLoading: true });
+    register(this.state.email, this.state.password)
+      .then((res) => {
+        if (res) {
+          this.setState({
             message: "",
             isRegOk: true,
-          }
-        );
-      } else {
-        this.setState({
-          message: "Что-то пошло не так! Попробуйте ещё раз.",
-          isRegOk: false,
-        });
-      }
-      this.setState({ isInfoTooltip: true });
-    });
+            isLoading: false,
+          });
+        } else {
+          this.setState({
+            message: "Что-то пошло не так! Попробуйте ещё раз.",
+            isRegOk: false,
+            isLoading: false,
+          });
+        }
+        this.setState({ isInfoTooltip: true });
+      })
+      .catch((err) => console.log(err));
   }
 
   handlerClose() {
     this.setState({ isInfoTooltip: false });
-    if(this.state.isRegOk){
+    if (this.state.isRegOk) {
       this.props.history.push("./sign-in");
     }
   }
@@ -56,7 +60,7 @@ class Register extends React.Component {
           name="registration"
           buttonName="Зарегистрироваться"
           onSubmit={this.onRegister}
-          //     isLoading={isLoading}
+          isLoading={this.state.isLoading}
           email={this.state.email}
           password={this.state.password}
           onChange={this.handleChange}

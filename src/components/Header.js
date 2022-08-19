@@ -15,9 +15,9 @@ function Header({ loggedIn, onSignOut, email }) {
     setMenuOpen(false);
   }
 
-  function handleSignOut(){
+  function handleSignOut() {
     setMenuOpen(false);
-    onSignOut()
+    onSignOut();
   }
 
   return (
@@ -52,21 +52,23 @@ function Header({ loggedIn, onSignOut, email }) {
           </Link>
         )}
 
-        {isMenuOpen&&loggedIn ? (
+        {isMenuOpen && loggedIn ? (
           <button
             className="header__close-button"
             type="button"
             aria-label="Закрыть"
             onClick={onCloseMenu}
           ></button>
-        ) : loggedIn?(
+        ) : loggedIn ? (
           <button
             className="header__burger-menu"
             type="button"
             aria-label="Открыть меню"
             onClick={onClickMenu}
           ></button>
-        ):<></>}
+        ) : (
+          <></>
+        )}
       </header>
     </>
   );

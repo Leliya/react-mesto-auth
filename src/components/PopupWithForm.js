@@ -7,7 +7,7 @@ function PopupWithForm({
   onClose,
   onSubmit,
   isLoading,
-  isValid
+  isValid,
 }) {
   function cancelClose(e) {
     e.stopPropagation();
@@ -26,9 +26,20 @@ function PopupWithForm({
           onClick={onClose}
         ></button>
         <h2 className="popup__title">{title}</h2>
-        <form name={name} onSubmit={onSubmit} className="popup__form" noValidate={true}>
+        <form
+          name={name}
+          onSubmit={onSubmit}
+          className="popup__form"
+          noValidate={true}
+        >
           {children}
-          <button className={isValid?"popup__button":"popup__button popup__button_disabled"} type="submit" disabled={!isValid}>
+          <button
+            className={
+              isValid ? "popup__button" : "popup__button popup__button_disabled"
+            }
+            type="submit"
+            disabled={!isValid}
+          >
             {isLoading ? "Сохранение..." : buttonName}
           </button>
         </form>

@@ -10,7 +10,7 @@
 
 @media screen and (min-width: 1281px) {
   .register {
-    height: calc(100vh - (87/1280*100vw) - 33px);
+    height: calc(100vh - (87 / 1280 * 100vw) - 33px);
   }
 }
 
@@ -25,4 +25,3 @@
     height: calc(100vh - 86px);
   }
 }
-

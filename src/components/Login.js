@@ -1,5 +1,4 @@
 import React from "react";
-//import { Link } from 'react-router-dom';
 import FormForAuth from "./FormForAuth";
 import { authorize } from "./Auth";
 import { withRouter } from "react-router-dom";
@@ -10,6 +9,7 @@ class Login extends React.Component {
     this.state = {
       email: "",
       password: "",
+      isLoading: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.onLogin = this.onLogin.bind(this);
@@ -20,6 +20,7 @@ class Login extends React.Component {
   }
 
   onLogin() {
+    this.setState({ isLoading: true });
     authorize(this.state.email, this.state.password)
       .then((data) => {
         if (data.token) {
@@ -27,9 +28,12 @@ class Login extends React.Component {
             this.props.loggedIn();
             this.props.history.push("/mesto");
           });
+        } else {
+          return;
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => this.setState({ isLoading: false }));
   }
 
   render() {
@@ -39,7 +43,7 @@ class Login extends React.Component {
         name="login"
         buttonName="Войти"
         onSubmit={this.onLogin}
-        // isLoading={isLoading}
+        isLoading={this.state.isLoading}
         email={this.state.email}
         password={this.state.password}
         onChange={this.handleChange}

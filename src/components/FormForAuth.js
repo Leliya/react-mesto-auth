@@ -8,7 +8,7 @@ function FormForAuth({
   onSubmit,
   email,
   password,
-  // isLoading,
+  isLoading,
   onChange,
 }) {
   const [isValidEmail, setValidEmailStatus] = React.useState({
@@ -63,7 +63,7 @@ function FormForAuth({
               placeholder="Email"
               value={email || ""}
               onChange={handleChange}
-              autoComplete={'off'}
+              autoComplete={"off"}
               required
             />
             <span className="popup__input-error email-input-error">
@@ -81,7 +81,7 @@ function FormForAuth({
               onChange={handleChange}
               minLength={6}
               maxLength={20}
-              autoComplete={'new-password'}
+              autoComplete={"new-password"}
               required
             />
             <span className="popup__input-error password-input-error">
@@ -95,10 +95,9 @@ function FormForAuth({
                 : "popup__button popup__button_type_auth popup__button_disabled"
             }
             type="submit"
-            disabled={!isValidEmail.validity&&!isValidPassword.validity}
+            disabled={!isValidEmail.validity && !isValidPassword.validity}
           >
-            {buttonName}
-            {/* {isLoading ? "Отправка..." : buttonName} */}
+            {isLoading ? "Отправка..." : buttonName}
           </button>
         </form>
       </div>
