@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import FormForAuth from "./FormForAuth";
-import { register } from "./Auth";
+import { register } from "../utils/Auth";
 import InfoTooltip from "./InfoTooltip";
 
 class Register extends React.Component {
@@ -33,16 +33,14 @@ class Register extends React.Component {
             isRegOk: true,
             isLoading: false,
           });
-        } else {
-          this.setState({
-            message: "Что-то пошло не так! Попробуйте ещё раз.",
-            isRegOk: false,
-            isLoading: false,
-          });
-        }
-        this.setState({ isInfoTooltip: true });
+        } 
       })
-      .catch((err) => console.log(err));
+      .catch(() => {this.setState({
+        message: "Что-то пошло не так! Попробуйте ещё раз.",
+        isRegOk: false,
+        isLoading: false,
+      })
+    }).finally(()=>this.setState({ isInfoTooltip: true }))
   }
 
   handlerClose() {

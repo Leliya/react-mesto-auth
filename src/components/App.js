@@ -13,7 +13,7 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import Register from "./Register";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
-import { getContent } from "./Auth";
+import { getContent } from "../utils/Auth";
 
 function App() {
   const [isEditProfilePopupOpen, setProfilePopupOpen] = React.useState(false);
@@ -31,6 +31,7 @@ function App() {
   const history = useHistory();
 
   React.useEffect(() => {
+    if (loggedIn){
     api
       .getUserInfo()
       .then((user) => {
@@ -38,17 +39,18 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
-      });
-  }, []);
+      });}
+  }, [loggedIn]);
 
   React.useEffect(() => {
+    if (loggedIn){
     api
       .getInitialCards()
       .then((cards) => updateCards(cards))
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+}}, [loggedIn]);
 
   React.useEffect(() => {
     const jwt = localStorage.getItem("jwt");
@@ -58,7 +60,7 @@ function App() {
           if (res) {
             setloggedIn(true);
             setEmail(res.data.email);
-            history.push("/mesto");
+            history.push("/");
           }
         })
         .catch((err) => {
@@ -182,7 +184,7 @@ function App() {
         <Switch>
           <ProtectedRoute
             exact
-            path="/mesto"
+            path="/"
             loggedIn={loggedIn}
             component={Main}
             onEditAvatar={handleEditAvatarClick}

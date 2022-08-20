@@ -1,6 +1,6 @@
 import React from "react";
 import FormForAuth from "./FormForAuth";
-import { authorize } from "./Auth";
+import { authorize } from "../utils/Auth";
 import { withRouter } from "react-router-dom";
 
 class Login extends React.Component {
@@ -26,7 +26,7 @@ class Login extends React.Component {
         if (data.token) {
           this.setState({ email: "", password: "" }, () => {
             this.props.loggedIn();
-            this.props.history.push("/mesto");
+            this.props.history.push("/");
           });
         } else {
           return;
