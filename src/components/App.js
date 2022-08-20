@@ -13,7 +13,8 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import Register from "./Register";
 import Login from "./Login";
 import ProtectedRoute from "./ProtectedRoute";
-import { getContent } from "../utils/Auth";
+import { getContent, authorize, register } from "../utils/Auth";
+import InfoTooltip from "./InfoTooltip";
 
 function App() {
   const [isEditProfilePopupOpen, setProfilePopupOpen] = React.useState(false);
@@ -27,30 +28,35 @@ function App() {
   const [cards, updateCards] = React.useState([]);
   const [isLoading, setLoading] = React.useState(false);
   const [loggedIn, setloggedIn] = React.useState(false);
-  const [email, setEmail] = React.useState("");
+  const [dataAuth, setDataAuth] = React.useState({ email: "", password: "" });
+  const [regInfo, setRegInfo] = React.useState({ isRegOk: true, message: "" });
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
+  // const [password, setPassword] = React.useState("");
   const history = useHistory();
 
   React.useEffect(() => {
-    if (loggedIn){
-    api
-      .getUserInfo()
-      .then((user) => {
-        setCurrentUser(user);
-      })
-      .catch((err) => {
-        console.log(err);
-      });}
+    if (loggedIn) {
+      api
+        .getUserInfo()
+        .then((user) => {
+          setCurrentUser(user);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }, [loggedIn]);
 
   React.useEffect(() => {
-    if (loggedIn){
-    api
-      .getInitialCards()
-      .then((cards) => updateCards(cards))
-      .catch((err) => {
-        console.log(err);
-      });
-}}, [loggedIn]);
+    if (loggedIn) {
+      api
+        .getInitialCards()
+        .then((cards) => updateCards(cards))
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [loggedIn]);
 
   React.useEffect(() => {
     const jwt = localStorage.getItem("jwt");
@@ -59,7 +65,7 @@ function App() {
         .then((res) => {
           if (res) {
             setloggedIn(true);
-            setEmail(res.data.email);
+            setDataAuth({email:res.data.email});
             history.push("/");
           }
         })
@@ -68,7 +74,7 @@ function App() {
         });
     }
     return;
-  }, [history, loggedIn, email]);
+  }, [history, loggedIn, dataAuth.email]);
 
   function handleEditAvatarClick() {
     setAvatarPopupOpen(true);
@@ -167,8 +173,58 @@ function App() {
       .finally(() => setLoading(false));
   }
 
+  function handleRegister() {
+    setLoading(true);
+    register(dataAuth.email, dataAuth.password)
+      .then((res) => {
+        if (res) {
+          setRegInfo({
+            isRegOk: true,
+            message: "Вы успешно зарегистрированы!",
+          });
+          setIsInfoTooltipOpen(true);
+          setTimeout(() => {
+            setIsInfoTooltipOpen(false);
+            history.push("./sign-in");
+          }, 2500);
+        }
+      })
+      .catch(() => {
+        setRegInfo({
+          isRegOk: false,
+          message: "Что-то пошло не так! Попробуйте ещё раз.",
+        });
+        setIsInfoTooltipOpen(true);
+      })
+      .finally(() => {
+        setLoading(false);
+        //this.setState({ isInfoTooltip: true });
+      });
+  }
+
+  // function handleLogin() {
+  //   setloggedIn(true);
+  // }
   function handleLogin() {
-    setloggedIn(true);
+    setLoading(true);
+    authorize(dataAuth.email, dataAuth.password)
+      .then((data) => {
+        if (data.token) {
+          setDataAuth({ email: "", password: "" });
+          setloggedIn(true);
+          history.push("/");
+        } else {
+          setRegInfo({isRegOk:false, message: "Что-то пошло не так! Попробуйте ещё раз."})
+          setIsInfoTooltipOpen(true);
+          return;
+        }
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false));
+  }
+
+  function handleChangeAuthData(input, value) {
+    setDataAuth({...dataAuth, [input]:value});
   }
 
   function handleSignOut() {
@@ -177,10 +233,28 @@ function App() {
     history.push("/sign-in");
   }
 
+  function handlerCloseInfoTooltip() {
+    setIsInfoTooltipOpen(false);
+    history.push("/sign-in");
+    setRegInfo({isRegOk:false, message:""})
+    
+
+    // if (regInfo.isRegOk) {
+    //   setTimeout(() => {
+    //     setIsInfoTooltipOpen(false);
+    //     history.push("/");
+    //   }, 2000);
+    // }
+  }
+
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
-        <Header loggedIn={loggedIn} onSignOut={handleSignOut} email={email} />
+        <Header
+          loggedIn={loggedIn}
+          onSignOut={handleSignOut}
+          email={dataAuth.email}
+        />
         <Switch>
           <ProtectedRoute
             exact
@@ -196,16 +270,34 @@ function App() {
             onCardDelete={handleCardDelete}
           />
           <Route path="/sign-up">
-            <Register />
+            <Register
+              handleRegister={handleRegister}
+              isLoading={isLoading}
+              email={dataAuth.email}
+              password={dataAuth.password}
+              onChange={handleChangeAuthData}
+            />
           </Route>
           <Route path="/sign-in">
-            <Login loggedIn={handleLogin} />
+            <Login
+              handleLogin={handleLogin}
+              isLoading={isLoading}
+              email={dataAuth.email}
+              password={dataAuth.password}
+              onChange={handleChangeAuthData}
+            />
           </Route>
         </Switch>
         {loggedIn && <Footer />}
         <Route path="*">
           <Redirect to="/sign-in" />
         </Route>
+        <InfoTooltip
+          isRegOk={regInfo.isRegOk}
+          isOpen={isInfoTooltipOpen}
+          onClose={handlerCloseInfoTooltip}
+          message={regInfo.message}
+        />
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}

@@ -7,48 +7,48 @@ import InfoTooltip from "./InfoTooltip";
 class Register extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      email: "",
-      password: "",
-      isInfoTooltip: false,
-      isRegOk: false,
-      isLoading: false,
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.onRegister = this.onRegister.bind(this);
-    this.handlerClose = this.handlerClose.bind(this);
+    // this.state = {
+    //   email: "",
+    //   password: "",
+    //   isInfoTooltip: false,
+    //   isRegOk: false,
+    //   isLoading: false,
+    // };
+    //this.handleChange = this.handleChange.bind(this);
+    //this.onRegister = this.onRegister.bind(this);
+    // this.handlerClose = this.handlerClose.bind(this);
   }
 
-  handleChange(obj) {
-    this.setState(obj);
-  }
+  // handleChange(obj) {
+  //   this.setState(obj);
+  // }
 
-  onRegister() {
-    this.setState({ isLoading: true });
-    register(this.state.email, this.state.password)
-      .then((res) => {
-        if (res) {
-          this.setState({
-            message: "",
-            isRegOk: true,
-            isLoading: false,
-          });
-        } 
-      })
-      .catch(() => {this.setState({
-        message: "Что-то пошло не так! Попробуйте ещё раз.",
-        isRegOk: false,
-        isLoading: false,
-      })
-    }).finally(()=>this.setState({ isInfoTooltip: true }))
-  }
+  // onRegister() {
+  //   this.setState({ isLoading: true });
+  //   register(this.state.email, this.state.password)
+  //     .then((res) => {
+  //       if (res) {
+  //         this.setState({
+  //           message: "",
+  //           isRegOk: true,
+  //           isLoading: false,
+  //         });
+  //       } 
+  //     })
+  //     .catch(() => {this.setState({
+  //       message: "Что-то пошло не так! Попробуйте ещё раз.",
+  //       isRegOk: false,
+  //       isLoading: false,
+  //     })
+  //   }).finally(()=>this.setState({ isInfoTooltip: true }))
+  // }
 
-  handlerClose() {
-    this.setState({ isInfoTooltip: false });
-    if (this.state.isRegOk) {
-      this.props.history.push("./sign-in");
-    }
-  }
+  // handlerClose() {
+  //   this.setState({ isInfoTooltip: false });
+  //   if (this.state.isRegOk) {
+  //     this.props.history.push("./sign-in");
+  //   }
+  // }
 
   render() {
     return (
@@ -57,11 +57,11 @@ class Register extends React.Component {
           title="Регистрация"
           name="registration"
           buttonName="Зарегистрироваться"
-          onSubmit={this.onRegister}
-          isLoading={this.state.isLoading}
-          email={this.state.email}
-          password={this.state.password}
-          onChange={this.handleChange}
+          onSubmit={this.props.handleRegister}
+          isLoading={this.props.isLoading}
+          email={this.props.email}
+          password={this.props.password}
+          onChange={this.props.onChange}
         >
           <span className="register__caption">
             Уже зарегистрированы? &nbsp;
@@ -70,12 +70,12 @@ class Register extends React.Component {
             </Link>
           </span>
         </FormForAuth>
-        <InfoTooltip
+        {/* <InfoTooltip
           isRegOk={this.state.isRegOk}
           isOpen={this.state.isInfoTooltip}
           onClose={this.handlerClose}
           message={this.state.message}
-        />
+        /> */}
       </>
     );
   }
