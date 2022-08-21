@@ -1,10 +1,9 @@
 import React from "react";
 import logo from "../images/header-logo.svg";
-import { useLocation, Link } from "react-router-dom";
+import { Route, Switch, Link } from "react-router-dom";
 import Menu from "./Menu";
 
 function Header({ loggedIn, onSignOut, email }) {
-  let location = useLocation();
   const [isMenuOpen, setMenuOpen] = React.useState(false);
 
   function onClickMenu() {
@@ -32,26 +31,29 @@ function Header({ loggedIn, onSignOut, email }) {
         >
           {loggedIn && email}
         </h2>
-        {location.pathname === "/sign-up" ? (
-          <Link to="/sign-in" className="header__link">
-            Войти
-          </Link>
-        ) : !loggedIn ? (
-          <Link to="/sign-up" className="header__link">
-            Регистрация
-          </Link>
-        ) : (
-          <Link
-            to="/sign-in"
-            className={`header__link header__link_type_signout ${
-              isMenuOpen ? "header__link_position_menu" : ""
-            }`}
-            onClick={handleSignOut}
-          >
-            Выйти
-          </Link>
-        )}
-
+        <Switch>
+          <Route exact path="/">
+            <Link
+              to="/sign-in"
+              className={`header__link header__link_type_signout ${
+                isMenuOpen ? "header__link_position_menu" : ""
+              }`}
+              onClick={handleSignOut}
+            >
+              Выйти
+            </Link>
+          </Route>
+          <Route path="/sign-up">
+            <Link to="/sign-in" className="header__link">
+              Войти
+            </Link>
+          </Route>
+          <Route path="/sign-in">
+            <Link to="/sign-up" className="header__link">
+              Регистрация
+            </Link>
+          </Route>
+        </Switch>
         {isMenuOpen && loggedIn ? (
           <button
             className="header__close-button"

@@ -27,7 +27,7 @@ function FormForAuth({
   }, []);
 
   function handleChange(e) {
-    onChange( e.target.name, e.target.value );
+    onChange(e.target.name, e.target.value);
     e.target.name === "email"
       ? setValidEmailStatus({
           validity: e.target.validity.valid,

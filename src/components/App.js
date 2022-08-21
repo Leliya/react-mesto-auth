@@ -31,7 +31,7 @@ function App() {
   const [dataAuth, setDataAuth] = React.useState({ email: "", password: "" });
   const [regInfo, setRegInfo] = React.useState({ isRegOk: true, message: "" });
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
-  // const [password, setPassword] = React.useState("");
+  const [emailLoggedin, setEmailLoggedin] = React.useState("");
   const history = useHistory();
 
   React.useEffect(() => {
@@ -65,7 +65,7 @@ function App() {
         .then((res) => {
           if (res) {
             setloggedIn(true);
-            setDataAuth({email:res.data.email});
+            setEmailLoggedin(res.data.email);
             history.push("/");
           }
         })
@@ -198,13 +198,9 @@ function App() {
       })
       .finally(() => {
         setLoading(false);
-        //this.setState({ isInfoTooltip: true });
       });
   }
 
-  // function handleLogin() {
-  //   setloggedIn(true);
-  // }
   function handleLogin() {
     setLoading(true);
     authorize(dataAuth.email, dataAuth.password)
@@ -213,38 +209,35 @@ function App() {
           setDataAuth({ email: "", password: "" });
           setloggedIn(true);
           history.push("/");
-        } else {
-          setRegInfo({isRegOk:false, message: "Что-то пошло не так! Попробуйте ещё раз."})
-          setIsInfoTooltipOpen(true);
-          return;
         }
       })
-      .catch((err) => console.log(err))
+      .catch(() => {
+        setRegInfo({
+          isRegOk: false,
+          message: "Что-то пошло не так! Попробуйте ещё раз.",
+        });
+        setIsInfoTooltipOpen(true);
+      })
       .finally(() => setLoading(false));
   }
 
   function handleChangeAuthData(input, value) {
-    setDataAuth({...dataAuth, [input]:value});
+    setDataAuth({ ...dataAuth, [input]: value });
   }
 
   function handleSignOut() {
     setloggedIn(false);
     localStorage.removeItem("jwt");
     history.push("/sign-in");
+    setEmailLoggedin("");
   }
 
   function handlerCloseInfoTooltip() {
     setIsInfoTooltipOpen(false);
-    history.push("/sign-in");
-    setRegInfo({isRegOk:false, message:""})
-    
-
-    // if (regInfo.isRegOk) {
-    //   setTimeout(() => {
-    //     setIsInfoTooltipOpen(false);
-    //     history.push("/");
-    //   }, 2000);
-    // }
+    if (regInfo.isRegOk) {
+      history.push("/sign-in");
+    }
+    setRegInfo({ isRegOk: false, message: "" });
   }
 
   return (
@@ -253,7 +246,7 @@ function App() {
         <Header
           loggedIn={loggedIn}
           onSignOut={handleSignOut}
-          email={dataAuth.email}
+          email={emailLoggedin}
         />
         <Switch>
           <ProtectedRoute

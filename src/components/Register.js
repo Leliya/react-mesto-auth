@@ -33,7 +33,7 @@ class Register extends React.Component {
   //           isRegOk: true,
   //           isLoading: false,
   //         });
-  //       } 
+  //       }
   //     })
   //     .catch(() => {this.setState({
   //       message: "Что-то пошло не так! Попробуйте ещё раз.",
@@ -52,31 +52,23 @@ class Register extends React.Component {
 
   render() {
     return (
-      <>
-        <FormForAuth
-          title="Регистрация"
-          name="registration"
-          buttonName="Зарегистрироваться"
-          onSubmit={this.props.handleRegister}
-          isLoading={this.props.isLoading}
-          email={this.props.email}
-          password={this.props.password}
-          onChange={this.props.onChange}
-        >
-          <span className="register__caption">
-            Уже зарегистрированы? &nbsp;
-            <Link to="/sign-in" className="register__caption-link">
-              Войти
-            </Link>
-          </span>
-        </FormForAuth>
-        {/* <InfoTooltip
-          isRegOk={this.state.isRegOk}
-          isOpen={this.state.isInfoTooltip}
-          onClose={this.handlerClose}
-          message={this.state.message}
-        /> */}
-      </>
+      <FormForAuth
+        title="Регистрация"
+        name="registration"
+        buttonName="Зарегистрироваться"
+        onSubmit={this.props.handleRegister}
+        isLoading={this.props.isLoading}
+        email={this.props.email}
+        password={this.props.password}
+        onChange={this.props.onChange}
+      >
+        <span className="register__caption">
+          Уже зарегистрированы? &nbsp;
+          <Link to="/sign-in" className="register__caption-link">
+            Войти
+          </Link>
+        </span>
+      </FormForAuth>
     );
   }
 }
